@@ -3,8 +3,9 @@ module Scan
     SUPPORTED = %w(html junit json-compilation-database)
 
     # Intialize with values from Scan.config matching these param names
-    def initialize(open_report, output_types, output_directory, use_clang_report_name, custom_report_file_name = nil)
+    def initialize(open_report, screenshots, output_types, output_directory, use_clang_report_name, custom_report_file_name = nil)
       @open_report = open_report
+      @screenshots = screenshots
       @output_types = output_types
       @output_directory = output_directory
       @use_clang_report_name = use_clang_report_name
@@ -49,6 +50,7 @@ module Scan
         parts << "xcpretty"
         parts << "--report #{type}"
         parts << "--output '#{output_path}'"
+        parts << "--screenshots" if @screenshots
         parts << "&> /dev/null "
 
         commands[output_path] = parts.join(" ")

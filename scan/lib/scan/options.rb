@@ -131,6 +131,12 @@ module Scan
                                      env_name: "SCAN_FORMATTER",
                                      description: "A custom xcpretty formatter to use",
                                      optional: true),
+        FastlaneCore::ConfigItem.new(key: :screenshots,
+                                     short_option: "-u",
+                                     env_name: "SCAN_SCREENSHOTS",
+                                     description: "Collect screenshots in the HTML report",
+                                     is_string: false,
+                                     optional: true),
 
         FastlaneCore::ConfigItem.new(key: :test_without_building,
                                      short_option: "-T",

@@ -3,7 +3,7 @@ describe Scan do
     let (:path) { "./scan/spec/fixtures/boring.log" }
 
     it "ignores invalid report types" do
-      commands = Scan::ReportCollector.new(false, "invalid, html", "/tmp", false).generate_commands(path)
+      commands = Scan::ReportCollector.new(false, false, "invalid, html", "/tmp", false).generate_commands(path)
 
       expect(commands.count).to eq(1)
       expect(commands).to eq({
@@ -12,7 +12,7 @@ describe Scan do
     end
 
     it "names the json compilation database with the correct name when the json_compilation_database_clang option is set" do
-      commands = Scan::ReportCollector.new(false, "json-compilation-database", "/tmp", true).generate_commands(path)
+      commands = Scan::ReportCollector.new(false, false, "json-compilation-database", "/tmp", true).generate_commands(path)
 
       expect(commands.count).to eq(1)
       expect(commands).to eq({
@@ -21,7 +21,7 @@ describe Scan do
     end
 
     it "names the json compilation database with the correct name when the json_compilation_database_clang option is not set" do
-      commands = Scan::ReportCollector.new(false, "json-compilation-database", "/tmp", false).generate_commands(path)
+      commands = Scan::ReportCollector.new(false, false, "json-compilation-database", "/tmp", false).generate_commands(path)
 
       expect(commands.count).to eq(1)
       expect(commands).to eq({
@@ -29,12 +29,12 @@ describe Scan do
                               })
     end
 
-    it "use user specified report file name" do
-      commands = Scan::ReportCollector.new(false, "junit", "/tmp", false, "custom.xml").generate_commands(path)
+    it "includes screenshot parameter if specified by user" do
+      commands = Scan::ReportCollector.new(false, true, "html", "/tmp", false).generate_commands(path)
 
       expect(commands.count).to eq(1)
       expect(commands).to eq({
-                                 "/tmp/custom.xml" => "cat './scan/spec/fixtures/boring.log' |  xcpretty --report junit --output '/tmp/custom.xml' &> /dev/null "
+                                 "/tmp/report.html" => "cat './scan/spec/fixtures/boring.log' |  xcpretty --report html --output '/tmp/report.html' --screenshots &> /dev/null "
                              })
     end
   end

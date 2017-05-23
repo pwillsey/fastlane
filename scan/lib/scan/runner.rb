@@ -51,6 +51,7 @@ module Scan
       output_file = Tempfile.new("junit_report")
 
       report_collector = ReportCollector.new(Scan.config[:open_report],
+                                             Scan.config[:screenshots],
                                              Scan.config[:output_types],
                                              Scan.config[:output_directory],
                                              Scan.config[:use_clang_report_name],
